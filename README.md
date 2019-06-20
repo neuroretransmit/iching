@@ -87,7 +87,7 @@ $ python main.py -f -e foo.txt > foo.iching
 **Encoding with keymap shuffle**
 
 ```bash
-$ python main.py -e -s "yeet"
+$ python main.py -s -e "yeet"
 Shuffling...
 Key: cNg6Dm2hKO9Z4lPCSrGe85xT0fVwRupHbAQnsjXiqaJz1UYdFLWtk+3yBEIo7vM/
 
