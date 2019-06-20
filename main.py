@@ -14,7 +14,7 @@ def str2bool(v):
         raise argparse.ArgumentTypeError('Boolean value expected.')
 
 
-if __name__ == "__main__":
+def configure_parser():
     parser = argparse.ArgumentParser(description='I Ching Hexagram Encoder/Decoder.')
     parser.add_argument('-e', '--encode', type=str,
                         help='Encode via double translation of Base64 to I Ching hexagrams.')
@@ -28,6 +28,11 @@ if __name__ == "__main__":
                         help='Output file to write.')
     parser.add_argument('-f', '--file', type=str2bool, nargs='?', const=True, default=False,
                         help='File input flag.')
+    return parser
+
+
+if __name__ == "__main__":
+    parser = configure_parser()
     args = vars(parser.parse_args())
     if args['encode'] is not None:
         if args['file'] is not None:
