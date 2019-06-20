@@ -150,6 +150,6 @@ File written at 'file.txt'
 
 **Decoding with keymap key**
 ```bash
-$python main.py -k "cNg6Dm2hKO9Z4lPCSrGe85xT0fVwRupHbAQnsjXiqaJz1UYdFLWtk+3yBEIo7vM/" -d "$(cat hexagrams.txt)"
+$ python main.py -k "cNg6Dm2hKO9Z4lPCSrGe85xT0fVwRupHbAQnsjXiqaJz1UYdFLWtk+3yBEIo7vM/" -d "$(cat hexagrams.txt)"
 yeet
 ```
