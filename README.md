@@ -7,6 +7,7 @@ values to *I Ching* hexagrams and decodes them using an efficient 2D trigram loo
 
 ```bash
 usage: main.py [-h] [-e ENCODE] [-d DECODE] [-s [SHUFFLE]] [-k KEY]
+               [-o OUTPUT] [-f [FILE]]
 
 I Ching Hexagram Encoder/Decoder.
 
@@ -20,7 +21,10 @@ optional arguments:
   -s [SHUFFLE], --shuffle [SHUFFLE]
                         Shuffle keymap for more insecurity through obscurity.
   -k KEY, --key KEY     Base64 character ordering if encoded with shuffle.
-
+  -o OUTPUT, --output OUTPUT
+                        Output file to write.
+  -f [FILE], --file [FILE]
+                        File to be encoded
 ```
 
 ### Examples
@@ -72,6 +76,12 @@ $ python main.py -e "yeet"
 ==========
 ==========
 
+```
+
+**Encoding a file**
+
+```bash
+$ python main.py -f -e foo.txt > foo.iching
 ```
 
 **Encoding with keymap shuffle**
@@ -130,6 +140,11 @@ Key: cNg6Dm2hKO9Z4lPCSrGe85xT0fVwRupHbAQnsjXiqaJz1UYdFLWtk+3yBEIo7vM/
 ```bash
 $ python main.py -d "$(cat hexagrams.txt)"
 yeet
+```
+
+**Decoding a file**
+```bash
+$ python main.py -f -d file.iching -o file.txt
 ```
 
 **Decoding with keymap key**
