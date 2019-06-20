@@ -1,10 +1,10 @@
 import base64
+import random
 
 from hexagram import SORTED_HEXAGRAMS
 
 B64_CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 KEYMAP = {}
-KEYMAP.update(zip(B64_CHARACTERS, SORTED_HEXAGRAMS))
 
 
 def build_hexagram_output(hexagrams):
@@ -14,7 +14,12 @@ def build_hexagram_output(hexagrams):
     return output
 
 
-def encode(msg):
+def encode(msg, shuffle=False):
+    if shuffle:
+        print("Shuffling")
+        shuffled = ''.join(random.sample(B64_CHARACTERS, len(B64_CHARACTERS)))
+        print("Key: {}".format(shuffled))
+        KEYMAP.update(zip(shuffled, SORTED_HEXAGRAMS))
     b64_encoded = base64.b64encode(bytes(msg, encoding='utf-8')).decode('utf-8')
     hexagrams = []
     for letter in b64_encoded.replace('=', ''):
@@ -22,7 +27,9 @@ def encode(msg):
     return build_hexagram_output(hexagrams)
 
 
-def decode(encoded):
+def decode(encoded, key=None):
+    if key:
+        KEYMAP.update((zip(key, SORTED_HEXAGRAMS)))
     encoded_hexagrams = encoded.split("\n\n")
     lookup_hexagrams = []
     for hexagram in encoded_hexagrams:
