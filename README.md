@@ -145,6 +145,7 @@ yeet
 **Decoding a file**
 ```bash
 $ python main.py -f -d file.iching -o file.txt
+File written at 'file.txt'
 ```
 
 **Decoding with keymap key**
