@@ -1,4 +1,6 @@
 import argparse
+import base64
+
 from translator import encode, decode
 
 
@@ -23,10 +25,19 @@ if __name__ == "__main__":
                         help='Shuffle keymap for more insecurity through obscurity.')
     parser.add_argument('-k', '--key', type=str,
                         help='Base64 character ordering if encoded with shuffle.')
+    parser.add_argument('-o', '--output', type=str,
+                        help='Output file to write.')
+    parser.add_argument('-f', '--file', type=str2bool, nargs='?', const=True, default=False,
+                        help='File to be encoded')
     args = vars(parser.parse_args())
     if args['encode'] is not None:
-        hexagrams = encode(args['encode'], args['shuffle'])
+        if args['file'] is not None:
+            hexagrams = encode(args['encode'], args['shuffle'], file=True)
+        else:
+            hexagrams = encode(args['encode'], args['shuffle'])
         print(hexagrams)
     elif args['decode'] is not None:
+        if args['file'] is not None:
+            print(decode(args['decode'], key=args['key'], file=args['file'], output=args['output']))
         print(decode(args['decode'], key=args['key']))
 
