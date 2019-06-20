@@ -24,7 +24,7 @@ optional arguments:
   -o OUTPUT, --output OUTPUT
                         Output file to write.
   -f [FILE], --file [FILE]
-                        File to be encoded
+                        File input flag.
 ```
 
 ### Examples

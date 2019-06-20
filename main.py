@@ -1,5 +1,4 @@
 import argparse
-import base64
 
 from translator import encode, decode
 
@@ -28,7 +27,7 @@ if __name__ == "__main__":
     parser.add_argument('-o', '--output', type=str,
                         help='Output file to write.')
     parser.add_argument('-f', '--file', type=str2bool, nargs='?', const=True, default=False,
-                        help='File to be encoded')
+                        help='File input flag.')
     args = vars(parser.parse_args())
     if args['encode'] is not None:
         if args['file'] is not None:
