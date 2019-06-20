@@ -16,7 +16,7 @@ def build_hexagram_output(hexagrams):
 
 def encode(msg, shuffle=False):
     if shuffle:
-        print("Shuffling")
+        print("Shuffling...")
         shuffled = ''.join(random.sample(B64_CHARACTERS, len(B64_CHARACTERS)))
         print("Key: {}".format(shuffled))
         KEYMAP.update(zip(shuffled, SORTED_HEXAGRAMS))

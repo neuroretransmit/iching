@@ -71,9 +71,66 @@ $ python main.py -e "yeet"
 
 ```
 
+**Encoding with keymap shuffle**
+
+```bash
+$ python main.py -e -s "yeet"
+Shuffling...
+Key: cNg6Dm2hKO9Z4lPCSrGe85xT0fVwRupHbAQnsjXiqaJz1UYdFLWtk+3yBEIo7vM/
+
+====  ====
+====  ====
+====  ====
+==========
+==========
+====  ====
+
+====  ====
+====  ====
+==========
+====  ====
+====  ====
+==========
+
+====  ====
+====  ====
+==========
+==========
+====  ====
+====  ====
+
+==========
+==========
+==========
+==========
+====  ====
+==========
+
+==========
+==========
+====  ====
+====  ====
+==========
+====  ====
+
+==========
+==========
+==========
+====  ====
+====  ====
+==========
+
+```
+
 **Decoding**
 
 ```bash
-$ python main.py -d "$(python main.py -e 'yeet')"
+$ python main.py -d "$(cat hexagrams.txt)"
+yeet
+```
+
+**Decoding with keymap key**
+```bash
+$python main.py -k "cNg6Dm2hKO9Z4lPCSrGe85xT0fVwRupHbAQnsjXiqaJz1UYdFLWtk+3yBEIo7vM/" -d "$(cat hexagrams.txt)"
 yeet
 ```
