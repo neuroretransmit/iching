@@ -6,7 +6,7 @@ values to *I Ching* hexagrams and decodes them using an efficient 2D trigram loo
 ## Usage
 
 ```bash
-usage: main.py [-h] [-e ENCODE] [-d DECODE]
+usage: main.py [-h] [-e ENCODE] [-d DECODE] [-s [SHUFFLE]] [-k KEY]
 
 I Ching Hexagram Encoder/Decoder.
 
@@ -17,6 +17,9 @@ optional arguments:
                         hexagrams.
   -d DECODE, --decode DECODE
                         Decode I Ching hexagrams.
+  -s [SHUFFLE], --shuffle [SHUFFLE]
+                        Shuffle keymap for more insecurity through obscurity.
+  -k KEY, --key KEY     Base64 character ordering if encoded with shuffle.
 
 ```
 
