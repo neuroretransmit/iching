@@ -35,13 +35,17 @@ if __name__ == "__main__":
     parser = configure_parser()
     args = vars(parser.parse_args())
     if args['encode'] is not None:
-        if args['file'] is not None:
+        if args['file']:
             hexagrams = encode(args['encode'], args['shuffle'], file=True)
         else:
             hexagrams = encode(args['encode'], args['shuffle'])
         print(hexagrams)
     elif args['decode'] is not None:
-        if args['file'] is not None:
-            print(decode(args['decode'], key=args['key'], file=args['file'], output=args['output']))
-        print(decode(args['decode'], key=args['key']))
+        if args['file']:
+            if args['output'] is None:
+                print("ERROR: Must specify output path.")
+            else:
+                print(decode(args['decode'], key=args['key'], file=args['file'], output=args['output']))
+        else:
+            print(decode(args['decode'], key=args['key']))
 
