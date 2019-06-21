@@ -83,6 +83,7 @@ def decode(encoded, key=None, file=False, output=None):
     else:
         encoded_hexagrams = encoded.split("\n\n")
     lookup_hexagrams = []
+    print(encoded_hexagrams)
     for hexagram in encoded_hexagrams:
         for existing in SORTED_HEXAGRAMS:
             if hexagram.strip() == str(existing).strip():
