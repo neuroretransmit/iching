@@ -1,5 +1,7 @@
 import base64
 import random
+import re
+
 
 from hexagram import SORTED_HEXAGRAMS
 
@@ -18,9 +20,9 @@ def build_hexagram_output(hexagrams):
             lines[i] += split_hexagram[i]
     position = 0
     total_position = 0
-    while total_position <= len(lines[0]) - 1:
+    while total_position <len(lines[0]):
         for line in lines:
-            output += line[total_position: total_position + MAX_WIDTH]
+            output += line[total_position: total_position + MAX_WIDTH] + "\n"
             if position == 5:
                 position = 0
             else:
@@ -55,16 +57,37 @@ def decode(encoded, key=None, file=False, output=None):
     else:
         KEYMAP.update((zip(B64_CHARACTERS, SORTED_HEXAGRAMS)))
     if file:
+        encoded_hexagrams = []
         with open(encoded, "rb") as f:
-            encoded_hexagrams = f.read().decode('utf-8').split("\n\n")
+            lines = f.read().decode('utf-8').split("\n")
+            line_pos = 0
+            i = 0
+            while i < len(lines):
+                if i + 6 > len(lines):
+                    break
+                else:
+                    hexagram = [
+                        lines[i][:HEXAGRAM_WIDTH],
+                        lines[i + 1][line_pos: line_pos + HEXAGRAM_WIDTH],
+                        lines[i + 2][line_pos: line_pos + HEXAGRAM_WIDTH],
+                        lines[i + 3][line_pos: line_pos + HEXAGRAM_WIDTH],
+                        lines[i + 4][line_pos: line_pos + HEXAGRAM_WIDTH],
+                        lines[i + 5][line_pos: line_pos + HEXAGRAM_WIDTH]
+                    ]
+                    line_pos += HEXAGRAM_WIDTH
+                    if line_pos >= len(lines[i]):
+                        i += 6
+                        line_pos = 0
+                    hexagram = '\n'.join(hexagram)
+                    hexagram = re.sub(r'\n+', '\n', hexagram).strip()
+                    encoded_hexagrams.append(hexagram)
     else:
         encoded_hexagrams = encoded.split("\n\n")
     lookup_hexagrams = []
     for hexagram in encoded_hexagrams:
         for existing in SORTED_HEXAGRAMS:
-            e = existing
-            if hexagram.strip() == str(e).strip():
-                lookup_hexagrams.append(e)
+            if hexagram.strip() == str(existing).strip():
+                lookup_hexagrams.append(existing)
 
     decoded = ""
     for h1 in lookup_hexagrams:
