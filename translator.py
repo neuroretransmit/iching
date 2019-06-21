@@ -79,7 +79,6 @@ def decode(encoded, key=None, file=False, output=None):
                         i += 6
                         line_pos = 0
                     hexagram = '\n'.join(hexagram)
-                    hexagram = re.sub(r'\n+', '\n', hexagram).strip()
                     encoded_hexagrams.append(hexagram)
     else:
         encoded_hexagrams = encoded.split("\n\n")
