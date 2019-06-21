@@ -5,12 +5,27 @@ from hexagram import SORTED_HEXAGRAMS
 
 B64_CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
 KEYMAP = {}
+MAX_WIDTH = 80
+HEXAGRAM_WIDTH = 10
 
 
 def build_hexagram_output(hexagrams):
-    output = "\n"
+    output = ""
+    lines = [str()] * 6
     for hexagram in hexagrams:
-        output += str(hexagram) + "\n"
+        split_hexagram = str(hexagram).split("\n")
+        for i in range(6):
+            lines[i] += split_hexagram[i]
+    position = 0
+    total_position = 0
+    while total_position <= len(lines[0]) - 1:
+        for line in lines:
+            output += line[total_position: total_position + MAX_WIDTH]
+            if position == 5:
+                position = 0
+            else:
+                position += 1
+        total_position += MAX_WIDTH
     return output
 
 
