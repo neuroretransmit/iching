@@ -20,10 +20,10 @@ def configure_parser():
                         help='Encode via double translation of Base64 to I Ching hexagrams.')
     parser.add_argument('-d', '--decode', type=str,
                         help='Decode I Ching hexagrams.')
-    parser.add_argument('-s', '--shuffle', type=str2bool, nargs='?', const=True, default=False,
-                        help='Shuffle keymap for more insecurity through obscurity.')
+    parser.add_argument('-s', '--shift-cipher', type=str2bool, nargs='?', const=True, default=False,
+                        help='Shuffle keymap for to create shift cipher at base64 layer.')
     parser.add_argument('-k', '--key', type=str,
-                        help='Base64 character ordering if encoded with shuffle.')
+                        help='Base64 character ordering if encoded with shift cipher.')
     parser.add_argument('-o', '--output', type=str,
                         help='Output file to write.')
     parser.add_argument('-f', '--file', type=str2bool, nargs='?', const=True, default=False,
