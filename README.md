@@ -32,117 +32,46 @@ optional arguments:
 **Encoding**
 
 ```bash
-$ python main.py -e "yeet"
+$ python main.py -e yeet
 
-==========
-====  ====
-====  ====
-====  ====
-==========
-==========
-
-====  ====
-====  ====
-====  ====
-==========
-====  ====
-====  ====
-
-==========
-====  ====
-==========
-==========
-====  ====
-====  ====
-
-====  ====
-==========
-==========
-==========
-====  ====
-==========
-
-==========
-====  ====
-==========
-==========
-====  ====
-==========
-
-==========
-==========
-==========
-==========
-==========
-==========
+==============  ==================  ========================
+====  ========  ========  ==================  ==============
+====  ========  ============================================
+====  ======================================================
+==============  ========  ========  ========  ==============
+==============  ========  ==================================
 
 ```
 
-**Encoding a file**
+**Encoding a File**
 
 ```bash
-$ python main.py -f -e foo.txt > foo.iching
+$ python main.py -f -e yeet.txt > yeet.iching
 ```
 
-**Encoding with keymap shuffle**
+**Encoding with Shift Cipher**
 
 ```bash
 $ python main.py -s -e "yeet"
-Shuffling...
-Key: cNg6Dm2hKO9Z4lPCSrGe85xT0fVwRupHbAQnsjXiqaJz1UYdFLWtk+3yBEIo7vM/
+Key: D1uZzJYgiEAdehLlT285c0OVCK7mXSkf/vQy4N+IbWR96GPn3wsMaBptrUjxoHqF
 
-====  ====
-====  ====
-====  ====
-==========
-==========
-====  ====
-
-====  ====
-====  ====
-==========
-====  ====
-====  ====
-==========
-
-====  ====
-====  ====
-==========
-==========
-====  ====
-====  ====
-
-==========
-==========
-==========
-==========
-====  ====
-==========
-
-==========
-==========
-====  ====
-====  ====
-==========
-====  ====
-
-==========
-==========
-==========
-====  ====
-====  ====
-==========
+==============  ========  ========  ========  ==============
+====  ========  ========  ========  ========  ==============
+==================================  ========  ==============
+========================  ========  ==================  ====
+========================  ========  ==================  ====
+==============  ========  ============================  ====
 
 ```
 
 **Decoding**
 
 ```bash
-$ python main.py -d "$(cat hexagrams.txt)"
+$ python main.py -d "$(cat hexagrams.iching)"
 yeet
 ```
 
-**Decoding a file**
+**Decoding a File**
 ```bash
 $ python main.py -f -d file.iching -o file.txt
 File written at 'file.txt'
@@ -150,6 +79,6 @@ File written at 'file.txt'
 
 **Decoding with keymap key**
 ```bash
-$ python main.py -k "cNg6Dm2hKO9Z4lPCSrGe85xT0fVwRupHbAQnsjXiqaJz1UYdFLWtk+3yBEIo7vM/" -d "$(cat hexagrams.txt)"
+$ python main.py -k "cNg6Dm2hKO9Z4lPCSrGe85xT0fVwRupHbAQnsjXiqaJz1UYdFLWtk+3yBEIo7vM/" -d "$(cat hexagrams.iching)"
 yeet
 ```
