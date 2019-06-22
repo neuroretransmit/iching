@@ -77,7 +77,7 @@ $ python main.py -f -d file.iching -o file.txt
 File written at 'file.txt'
 ```
 
-**Decoding with keymap key**
+**Decoding with Shift Cipher**
 ```bash
 $ python main.py -k "cNg6Dm2hKO9Z4lPCSrGe85xT0fVwRupHbAQnsjXiqaJz1UYdFLWtk+3yBEIo7vM/" -d "$(cat hexagrams.iching)"
 yeet
