@@ -1,6 +1,5 @@
 import base64
 import random
-import re
 
 
 from hexagram import SORTED_HEXAGRAMS
@@ -12,7 +11,7 @@ HEXAGRAM_WIDTH = 10
 
 
 def build_hexagram_output(hexagrams):
-    output = ""
+    output = "\n"
     lines = [str()] * 6
     for hexagram in hexagrams:
         split_hexagram = str(hexagram).split("\n")
@@ -20,20 +19,19 @@ def build_hexagram_output(hexagrams):
             lines[i] += split_hexagram[i]
     position = 0
     total_position = 0
-    while total_position <len(lines[0]):
+    while total_position < len(lines[0]):
         for line in lines:
             output += line[total_position: total_position + MAX_WIDTH] + "\n"
-            if position == 5:
-                position = 0
-            else:
+            if position < 6:
                 position += 1
-        total_position += MAX_WIDTH
+            else:
+                position = 0
+        total_position += len(lines[0])
     return output
 
 
 def encode(msg, shuffle=False, file=False):
     if shuffle:
-        print("Shuffling...")
         shuffled = ''.join(random.sample(B64_CHARACTERS, len(B64_CHARACTERS)))
         print("Key: {}".format(shuffled))
         KEYMAP.update(zip(shuffled, SORTED_HEXAGRAMS))
@@ -57,38 +55,38 @@ def decode(encoded, key=None, file=False, output=None):
     else:
         KEYMAP.update((zip(B64_CHARACTERS, SORTED_HEXAGRAMS)))
     if file:
-        encoded_hexagrams = []
         with open(encoded, "rb") as f:
-            lines = f.read().decode('utf-8').split("\n")
-            line_pos = 0
-            i = 0
-            while i < len(lines):
-                if i + 6 > len(lines):
-                    break
-                else:
-                    hexagram = [
-                        lines[i][:HEXAGRAM_WIDTH],
-                        lines[i + 1][line_pos: line_pos + HEXAGRAM_WIDTH],
-                        lines[i + 2][line_pos: line_pos + HEXAGRAM_WIDTH],
-                        lines[i + 3][line_pos: line_pos + HEXAGRAM_WIDTH],
-                        lines[i + 4][line_pos: line_pos + HEXAGRAM_WIDTH],
-                        lines[i + 5][line_pos: line_pos + HEXAGRAM_WIDTH]
-                    ]
-                    line_pos += HEXAGRAM_WIDTH
-                    if line_pos >= len(lines[i]):
-                        i += 6
-                        line_pos = 0
-                    hexagram = '\n'.join(hexagram)
-                    encoded_hexagrams.append(hexagram)
-    else:
-        encoded_hexagrams = encoded.split("\n\n")
+            encoded = f.read().decode('utf-8')
+    encoded_hexagrams = []
+    line_pos = 0
+    i = 0
+    encoded = encoded.strip().split("\n")
+    while i < len(encoded):
+        if i + 6 > len(encoded):
+            break
+        else:
+            hexagram = [
+                encoded[i][line_pos: line_pos + HEXAGRAM_WIDTH],
+                encoded[i + 1][line_pos: line_pos + HEXAGRAM_WIDTH],
+                encoded[i + 2][line_pos: line_pos + HEXAGRAM_WIDTH],
+                encoded[i + 3][line_pos: line_pos + HEXAGRAM_WIDTH],
+                encoded[i + 4][line_pos: line_pos + HEXAGRAM_WIDTH],
+                encoded[i + 5][line_pos: line_pos + HEXAGRAM_WIDTH]
+            ]
+            if line_pos + HEXAGRAM_WIDTH >= len(encoded[i]):
+                i += 6
+                line_pos = 0
+            else:
+                line_pos += HEXAGRAM_WIDTH
+            hexagram = '\n'.join(hexagram)
+            encoded_hexagrams.append(hexagram)
+    KEYMAP.update((zip(B64_CHARACTERS, SORTED_HEXAGRAMS)))
     lookup_hexagrams = []
-    print(encoded_hexagrams)
     for hexagram in encoded_hexagrams:
         for existing in SORTED_HEXAGRAMS:
-            if hexagram.strip() == str(existing).strip():
-                lookup_hexagrams.append(existing)
-
+            e = existing
+            if hexagram.strip() == str(e).strip():
+                lookup_hexagrams.append(e)
     decoded = ""
     for h1 in lookup_hexagrams:
         for letter, h2 in KEYMAP.items():
