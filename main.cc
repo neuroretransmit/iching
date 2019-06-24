@@ -1,0 +1,75 @@
+#include <iostream>
+#include <string>
+
+#include <boost/program_options.hpp>
+
+#include "translator.h"
+
+using std::cout;
+using std::endl;
+
+namespace po = boost::program_options;
+
+enum {
+  SUCCESS,
+  ERROR_IN_COMMAND_LINE,
+  ERROR_UNHANDLED_EXCEPTION
+};
+
+int main(int argc, char** argv)
+{
+    string encode = "";
+    string decode = "";
+    string key = "";
+    bool shift_cipher = false;
+    
+    try { 
+        po::options_description desc("Options"); 
+        desc.add_options() 
+        ("help,h", "Print help messages") 
+        ("encode,e", po::value(&encode), "Encode message") 
+        ("decode,d", po::value(&decode), "Decode message")
+        ("shift-cipher,s", po::bool_switch(&shift_cipher), "Encode with shift cipher")
+        ("key,k", po::value(&key), "Key for decoding shift cipher"); 
+    
+        po::variables_map vm; 
+        try { 
+            po::store(po::parse_command_line(argc, argv, desc), vm); // can throw 
+    
+            if (vm.count("help") || vm.count("h")) { 
+                std::cout << "I Ching Hexagram Encoder/Decoder" << std::endl 
+                          << desc << std::endl; 
+                return SUCCESS; 
+            } else if (vm.count("encode") || vm.count("e")) {
+                if (vm["shift-cipher"].as<bool>()) {
+                    cout << Translator::encode(vm["encode"].as<string>(), true) << endl;
+                } else {
+                    cout << Translator::encode(vm["encode"].as<string>(), false) << endl;
+                }
+            } else if (vm.count("decode") || vm.count("d")) {
+                if (vm.count("key") || vm.count("k")) {
+                    cout << "Keying..." << endl;
+                } else {
+                    cout << Translator::decode(vm["decode"].as<string>()) << endl;
+                }
+            }
+        
+            po::notify(vm);
+        } catch(po::error& e) { 
+            std::cerr << "ERROR: " << e.what() << std::endl << std::endl; 
+            std::cerr << desc << std::endl; 
+            return ERROR_IN_COMMAND_LINE; 
+        } 
+    } catch(std::exception& e) { 
+        std::cerr << "Unhandled Exception reached the top of main: " 
+                  << e.what() << ", application will now exit" << std::endl;
+        return ERROR_UNHANDLED_EXCEPTION; 
+    
+    } 
+    //string msg = Translator::encode("mothershoulditrustthegovernment", false);
+    //cout << msg << "\n";
+    //string output = Translator::decode("bW90aGVyc2hvdWxkaXRydXN0dGhlZ292ZXJubWVudA");
+    //cout << output << endl;
+    return SUCCESS;   
+    
+}
