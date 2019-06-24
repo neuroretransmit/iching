@@ -46,13 +46,14 @@ bool Hexagram::operator<(const Hexagram& hexagram) const
 string Hexagram::str()
 {
     string s;
+    
     for (const char* line: TRIGRAMS[this->upper()]) {
-        s += line;
-        s += "\n";
+        s += string(line) + "\n";
     }
+    
     for (const char* line: TRIGRAMS[this->lower()]) {
-        s += line;
-        s += "\n";
+        s += string(line) + "\n";
     }
+    
     return s;
 }
