@@ -11,7 +11,7 @@ Options:
   -h [ --help ]          Print help messages
   -e [ --encode ] arg    Encode message
   -d [ --decode ] arg    Decode message
-  -s [ --shift-cipher ]  Encode with shift cipher
+  -s [ --shift-cipher ]  Use shift cipher
   -k [ --key ] arg       Key for decoding shift cipher
 ```
 
@@ -44,7 +44,7 @@ $ ./iching -e "`cat filename.extension`"
 
 ### Encoding with Shift Cipher
 ```bash
-$ ./iching -s -e "secret"
+$ ./iching -se "secret"
 KEY: EzLPYjRkayhnTCv47SgoFV5MOqb+/6emNlD231JWIXUiBKfAupwc0rQ8xHsZd9Gt
 ======================================================  ========================
 ====  ==================  ==================  ========  ========  ========  ====

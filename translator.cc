@@ -118,7 +118,7 @@ string build_hexagram_output(vector<Hexagram>& hexagrams, const string& delimite
     return repr;
 }
 
-string Translator::encode(const string& msg_or_fname, bool shuffle)
+string Translator::encode(const string& input, bool shuffle)
 {
     if (shuffle) {
         std::random_shuffle(B64_CHARACTERS.begin(), B64_CHARACTERS.end());
@@ -128,7 +128,7 @@ string Translator::encode(const string& msg_or_fname, bool shuffle)
         build_keymap(translate_hexagrams_2d_to_1d(true));
     }
     
-    string b64_encoded = b64_encode(msg_or_fname);
+    string b64_encoded = b64_encode(input);
     vector<Hexagram> hexagrams;
     
     for (const char& c : b64_encoded) {
@@ -174,7 +174,7 @@ static vector<string> lines_to_hexagrams(const vector<string>& lines)
     return hexagrams;
 }
 
-string Translator::decode(const string& encoded_or_fname, string key)
+string Translator::decode(const string& input, string key)
 {
     if (key != "") {
         B64_CHARACTERS = key;
@@ -182,7 +182,7 @@ string Translator::decode(const string& encoded_or_fname, string key)
     } else {
         build_keymap(translate_hexagrams_2d_to_1d(true));
     }
-    vector<string> hexagrams = lines_to_hexagrams(strip_lines(encoded_or_fname));   
+    vector<string> hexagrams = lines_to_hexagrams(strip_lines(input));   
     string b64 = "";
     
     for (const string& hexagram: hexagrams) {

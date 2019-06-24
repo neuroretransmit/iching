@@ -29,7 +29,7 @@ int main(int argc, char** argv)
         ("help,h", "Print help messages") 
         ("encode,e", po::value(&encode), "Encode message") 
         ("decode,d", po::value(&decode), "Decode message")
-        ("shift-cipher,s", po::bool_switch(&shift_cipher), "Encode with shift cipher")
+        ("shift-cipher,s", po::bool_switch(&shift_cipher), "Use shift cipher")
         ("key,k", po::value(&key), "Key for decoding shift cipher"); 
     
         po::variables_map vm; 
