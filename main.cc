@@ -66,10 +66,7 @@ int main(int argc, char** argv)
         return ERROR_UNHANDLED_EXCEPTION; 
     
     } 
-    //string msg = Translator::encode("mothershoulditrustthegovernment", false);
-    //cout << msg << "\n";
-    //string output = Translator::decode("bW90aGVyc2hvdWxkaXRydXN0dGhlZ292ZXJubWVudA");
-    //cout << output << endl;
+    
     return SUCCESS;   
     
 }
