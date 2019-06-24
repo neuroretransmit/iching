@@ -48,7 +48,7 @@ int main(int argc, char** argv)
                 }
             } else if (vm.count("decode") || vm.count("d")) {
                 if (vm.count("key") || vm.count("k")) {
-                    cout << "Keying..." << endl;
+                    cout << Translator::decode(vm["decode"].as<string>(), vm["key"].as<string>()) << endl;
                 } else {
                     cout << Translator::decode(vm["decode"].as<string>()) << endl;
                 }
