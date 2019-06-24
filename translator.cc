@@ -29,11 +29,11 @@ static size_t MAX_WIDTH = 80;
 static string B64_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 static map<char, Hexagram> KEYMAP;
 
-static void build_keymap(const vector<Hexagram> hexagrams)
+static void build_keymap()
 {
     int i = 0;
     for (const char& c : B64_CHARACTERS) {
-        KEYMAP.insert(pair<char, Hexagram>(c, hexagrams[i]));
+        KEYMAP.insert(pair<char, Hexagram>(c, HEXAGRAMS[i]));
         i += 1;
     }
 }
@@ -69,20 +69,6 @@ static string b64_decode(const string& msg)
     }
     
     return output;
-}
-
-static vector<Hexagram> translate_hexagrams_2d_to_1d(bool sort = false)
-{
-    vector<Hexagram> sorted_hexagrams;
-    
-    for (int i = 0; i < NUM_TRIGRAMS; i++)
-        for (int j = 0; j < NUM_TRIGRAMS; j++)
-            sorted_hexagrams.push_back(HEXAGRAMS[i][j]);
-    
-    if (sort)
-        std::sort(sorted_hexagrams.begin(), sorted_hexagrams.end());
-    
-    return sorted_hexagrams;
 }
 
 string build_hexagram_output(vector<Hexagram>& hexagrams, const string& delimiter)
@@ -130,9 +116,9 @@ string Translator::encode(const string& input, bool shuffle)
         std::srand(unsigned(std::time(0)));
         std::random_shuffle(B64_CHARACTERS.begin(), B64_CHARACTERS.end(), random_generator);
         cout << "KEY: " << B64_CHARACTERS << endl;
-        build_keymap(translate_hexagrams_2d_to_1d());
+        build_keymap();
     } else {
-        build_keymap(translate_hexagrams_2d_to_1d(true));
+        build_keymap();
     }
     
     string b64_encoded = b64_encode(input);
@@ -185,9 +171,9 @@ string Translator::decode(const string& input, string key)
 {
     if (key != "") {
         B64_CHARACTERS = key;
-        build_keymap(translate_hexagrams_2d_to_1d());
+        build_keymap();
     } else {
-        build_keymap(translate_hexagrams_2d_to_1d(true));
+        build_keymap();
     }
     vector<string> hexagrams = lines_to_hexagrams(strip_lines(input));   
     string b64 = "";
