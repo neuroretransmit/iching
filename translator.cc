@@ -1,6 +1,8 @@
 #include "translator.h"
 
 #include <algorithm>
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <map>
 #include <vector>
@@ -118,10 +120,16 @@ string build_hexagram_output(vector<Hexagram>& hexagrams, const string& delimite
     return repr;
 }
 
+static int random_generator(int i)
+{
+    return std::rand() % i;
+}
+
 string Translator::encode(const string& input, bool shuffle)
 {
     if (shuffle) {
-        std::random_shuffle(B64_CHARACTERS.begin(), B64_CHARACTERS.end());
+        std::srand(unsigned(std::time(0)));
+        std::random_shuffle(B64_CHARACTERS.begin(), B64_CHARACTERS.end(), random_generator);
         cout << "KEY: " << B64_CHARACTERS << endl;
         build_keymap(translate_hexagrams_2d_to_1d());
     } else {
