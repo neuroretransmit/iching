@@ -1,6 +1,6 @@
 # iching
 
-`iching` is an encoder/decoder based on the book *[I Ching](https://en.wikipedia.org/wiki/I_Ching)* which maps base64 values to I Ching hexagrams and decodes them using an efficient 2D trigram lookup table.
+`iching` is an encoder/decoder based on the book *[I Ching](https://en.wikipedia.org/wiki/I_Ching)* which maps base64 values to *I Ching* hexagrams and decodes them using an efficient 2D trigram lookup table.
 
 ## Usage
 
