@@ -2,6 +2,20 @@
 
 `iching` is an encoder/decoder with an optional shift-cipher based on the book *[I Ching](https://en.wikipedia.org/wiki/I_Ching)*. It maps base64 values to *I Ching* hexagrams.
 
+## Requirements
+
+* CMake
+* Boost >=1.66
+
+## Building
+
+```shell
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
+```
+
 ## Usage
 
 ```bash
