@@ -6,6 +6,8 @@
 
 * CMake
 * Boost >=1.66
+  * `system`
+  * `program_options`
 
 ## Building
 
