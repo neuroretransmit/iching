@@ -1,26 +1,29 @@
 #include "translator.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <ctime>
+#include <iostream>
 #include <map>
 
 #include "hexagram.h"
 #include "lexer.h"
 #include "parser.h"
 
+using std::cout;
 using std::endl;
 using std::ifstream;
 using std::map;
 using std::pair;
 
 static size_t MAX_WIDTH = 80;
-static string B64_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 static map<char, Hexagram> KEYMAP;
+string BASE64_CHARACTER_ORDERING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 static void build_keymap()
 {
     int i = 0;
-    for (const char& c : B64_CHARACTERS) {
+    for (const char& c : BASE64_CHARACTER_ORDERING) {
         KEYMAP.insert(pair<char, Hexagram>(c, HEXAGRAMS[i]));
         i += 1;
     }
@@ -67,8 +70,11 @@ string Translator::encode(const string& input, bool shuffle)
 {
     if (shuffle) {
         std::srand(unsigned(std::time(0)));
-        std::random_shuffle(B64_CHARACTERS.begin(), B64_CHARACTERS.end(), Util::Random::random_generator);
-        cout << "KEY: " << B64_CHARACTERS << endl;
+        std::random_shuffle(
+            BASE64_CHARACTER_ORDERING.begin(), 
+            BASE64_CHARACTER_ORDERING.end(), 
+            Util::Random::random_generator);
+        cout << "KEY: " << BASE64_CHARACTER_ORDERING << endl;
         build_keymap();
     } else {
         build_keymap();
@@ -87,7 +93,7 @@ string Translator::encode(const string& input, bool shuffle)
 string Translator::decode(const string& input, const string& key)
 {
     if (key != "") {
-        B64_CHARACTERS = key;
+        BASE64_CHARACTER_ORDERING = key;
         build_keymap();
     } else {
         build_keymap();
