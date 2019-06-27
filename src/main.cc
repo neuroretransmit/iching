@@ -5,6 +5,7 @@
 
 #include "translator.h"
 
+using std::cerr;
 using std::cout;
 using std::endl;
 
@@ -56,12 +57,12 @@ int main(int argc, char** argv)
         
             po::notify(vm);
         } catch(po::error& e) { 
-            std::cerr << "ERROR: " << e.what() << std::endl << std::endl; 
-            std::cerr << desc << std::endl; 
+            cerr << "ERROR: " << e.what() << std::endl << std::endl; 
+            cerr << desc << std::endl; 
             return ERROR_IN_COMMAND_LINE; 
         } 
     } catch(std::exception& e) { 
-        std::cerr << "Unhandled Exception reached the top of main: " 
+        cerr << "Unhandled Exception reached the top of main: " 
                   << e.what() << ", application will now exit" << std::endl;
         return ERROR_UNHANDLED_EXCEPTION; 
     

@@ -18,8 +18,12 @@ public:
         _upper(upper),
         _lower(lower),
         _value(value) {}
-    Trigram upper();
-    Trigram lower();
+    Hexagram(const Hexagram& hexagram) : 
+        _upper(hexagram.upper()),
+        _lower(hexagram.lower()),
+        _value(hexagram.value()) {}
+    Trigram upper()const;
+    Trigram lower() const;
     unsigned value() const;
     bool operator <(const Hexagram& hexagram) const;
     string str();
