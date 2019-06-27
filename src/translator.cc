@@ -5,88 +5,48 @@
 #include <ctime>
 #include <iostream>
 #include <map>
-#include <vector>
-#include <sstream>
-
-#include <boost/archive/iterators/base64_from_binary.hpp>
-#include <boost/archive/iterators/binary_from_base64.hpp>
-#include <boost/archive/iterators/transform_width.hpp>
-#include <boost/archive/iterators/remove_whitespace.hpp>
 
 #include "hexagram.h"
+#include "lexer.h"
+#include "parser.h"
 
-using namespace boost::archive::iterators;
-
-using std::cerr;
 using std::cout;
 using std::endl;
 using std::ifstream;
 using std::map;
 using std::pair;
-using std::vector;
 
 static size_t MAX_WIDTH = 80;
-static string B64_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 static map<char, Hexagram> KEYMAP;
+string BASE64_CHARACTER_ORDERING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 static void build_keymap()
 {
     int i = 0;
-    for (const char& c : B64_CHARACTERS) {
+    for (const char& c : BASE64_CHARACTER_ORDERING) {
         KEYMAP.insert(pair<char, Hexagram>(c, HEXAGRAMS[i]));
         i += 1;
     }
 }
 
-static string b64_encode(string msg)
-{
-    std::stringstream os;
-    typedef base64_from_binary<transform_width<const char*, 6, 8>> base64_text;
-
-    std::copy(
-        base64_text(msg.c_str()),
-        base64_text(msg.c_str() + msg.size()),
-        std::ostream_iterator<char>(os));
-    return os.str();
-}
-
-static string b64_decode(const string& msg)
-{
-    typedef transform_width<binary_from_base64<remove_whitespace<std::string::const_iterator>>, 8, 6> ItBinaryT;
-    string output = "";
-    string padded = msg;
-    
-    try {
-        size_t num_pad_chars((4 - msg.size() % 4) % 4);
-        padded.append(num_pad_chars, '=');
-        size_t pad_chars(std::count(padded.begin(), padded.end(), '='));
-        std::replace(padded.begin(), padded.end(), '=', 'A');
-        std::string output(ItBinaryT(padded.begin()), ItBinaryT(padded.end()));
-        output.erase(output.end() - pad_chars, output.end());
-        return output;
-    } catch (std::exception const& e) {
-        cerr << "Exception caught: " << e.what() << endl;
-    }
-    
-    return output;
-}
-
-string build_hexagram_output(vector<Hexagram>& hexagrams, const string& delimiter)
+string build_hexagram_output(const vector<Hexagram>& hexagrams, const string& delimiter)
 {
     string repr = "";    
     vector<string> continuous_hexagrams(NUM_HEXAGRAM_LINES);
     size_t offset = 0;
     size_t line_pos = 0;
     
-    for (Hexagram& hexagram: hexagrams) {
+    for (const Hexagram& hexagram: hexagrams) {
         if (line_pos >= MAX_WIDTH) {
-            for (int i = 0; i < NUM_HEXAGRAM_LINES; i++)
+            for (int i = 0; i < NUM_HEXAGRAM_LINES; i++) {
                 continuous_hexagrams.push_back("");
+            }
+            
             offset += NUM_HEXAGRAM_LINES;
             line_pos = 0;
         }
         
-        string h = hexagram.str();
+        string h = Hexagram(hexagram).str();
         size_t pos = 0;
         string token;
         
@@ -99,29 +59,28 @@ string build_hexagram_output(vector<Hexagram>& hexagrams, const string& delimite
         line_pos += HEXAGRAM_WIDTH;
     }
     
-    for (const string& line: continuous_hexagrams)
+    for (const string& line: continuous_hexagrams) {
         repr += line + "\n";
+    }
     
     return repr;
-}
-
-static int random_generator(int i)
-{
-    return std::rand() % i;
 }
 
 string Translator::encode(const string& input, bool shuffle)
 {
     if (shuffle) {
         std::srand(unsigned(std::time(0)));
-        std::random_shuffle(B64_CHARACTERS.begin(), B64_CHARACTERS.end(), random_generator);
-        cout << "KEY: " << B64_CHARACTERS << endl;
+        std::random_shuffle(
+            BASE64_CHARACTER_ORDERING.begin(), 
+            BASE64_CHARACTER_ORDERING.end(), 
+            Util::Random::random_generator);
+        cout << "KEY: " << BASE64_CHARACTER_ORDERING << endl;
         build_keymap();
     } else {
         build_keymap();
     }
     
-    string b64_encoded = b64_encode(input);
+    string b64_encoded = Util::Base64::b64_encode(input);
     vector<Hexagram> hexagrams;
     
     for (const char& c : b64_encoded) {
@@ -131,62 +90,28 @@ string Translator::encode(const string& input, bool shuffle)
     return build_hexagram_output(hexagrams, "\n");
 }
 
-static vector<string> strip_lines(const string& encoded_or_fname)
-{
-    vector<string> lines;
-    std::stringstream ss(encoded_or_fname);
-    string line = "";
-    
-    while (std::getline(ss, line, '\n'))
-        lines.push_back(line);
-    
-    return lines;
-}
-
-static vector<string> lines_to_hexagrams(const vector<string>& lines)
-{
-    vector<string> continuous_hexagrams(NUM_HEXAGRAM_LINES);
-    int i = 0;
-    for (const string& line : lines) {
-        i = i % NUM_HEXAGRAM_LINES == 0 ? 0 : i;
-        continuous_hexagrams[i] += line;
-        i += 1;
-    }
-    
-    vector<string> hexagrams;
-    for (size_t offset = 0; offset < continuous_hexagrams[0].length(); offset += HEXAGRAM_WIDTH) {
-        string hexagram = "";
-        for (const string& line : continuous_hexagrams) {
-            for (size_t j = offset; j < offset + HEXAGRAM_WIDTH; j++)
-                hexagram += line[j];
-            hexagram += "\n";
-        }
-        hexagrams.push_back(hexagram);
-    }
-    
-    return hexagrams;
-}
-
-string Translator::decode(const string& input, string key)
+string Translator::decode(const string& input, const string& key)
 {
     if (key != "") {
-        B64_CHARACTERS = key;
+        BASE64_CHARACTER_ORDERING = key;
         build_keymap();
     } else {
         build_keymap();
     }
-    vector<string> hexagrams = lines_to_hexagrams(strip_lines(input));   
+    
+    vector<string> hexagrams = Parser::lines_to_hexagrams(Lexer::strip_lines(input));   
     string b64 = "";
     
     for (const string& hexagram: hexagrams) {
         map<char, Hexagram>::iterator it;
         for (it = KEYMAP.begin(); it != KEYMAP.end(); it++) {
             string hex_str = it->second.str();
+            
             if (hex_str != "" && hex_str == hexagram) {
                 b64 += it->first;
             }
         }
     }
     
-    return b64_decode(b64);
+    return Util::Base64::b64_decode(b64);
 }

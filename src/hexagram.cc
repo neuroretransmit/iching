@@ -23,12 +23,12 @@ const char* TRIGRAMS[NUM_TRIGRAMS][NUM_TRIGRAM_LINES] =
     [ EARTH ]     = { BROKEN, BROKEN, BROKEN }
 };
 
-Trigram Hexagram::lower()
+Trigram Hexagram::lower() const
 {
     return this->_lower;
 }
 
-Trigram Hexagram::upper()
+Trigram Hexagram::upper() const
 {
     return this->_upper;
 }
