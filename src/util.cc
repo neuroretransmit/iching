@@ -14,12 +14,13 @@ using std::cerr;
 using std::cout;
 using std::endl;
 
+std::random_device dev;
+std::mt19937 rng(dev());
+std::uniform_int_distribution<std::mt19937::result_type> dist(INT32_MIN, INT32_MAX);
+
 int Util::Random::random_generator(int i)
-{
-    std::random_device dev;
-    std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> dist6(0, UINT32_MAX);
-    return std::rand() % i;
+{    
+    return dist(rng) % i;
 }
 
 string Util::String::rtrim(const string& s, const char* t)
