@@ -72,14 +72,14 @@ string Translator::encode(const string& input, bool shuffle)
         std::random_shuffle(
             b64_char_ordering.begin(), 
             b64_char_ordering.end(), 
-            Util::Random::random_generator);
+            util::rand::random_generator);
         cout << "KEY: " << b64_char_ordering << endl;
         build_keymap();
     } else {
         build_keymap();
     }
     
-    string b64_encoded = Util::Base64::b64_encode(input);
+    string b64_encoded = util::b64::b64_encode(input);
     vector<Hexagram> hexagrams;
     
     for (const char& c : b64_encoded) {
@@ -112,5 +112,5 @@ string Translator::decode(const string& input, const string& key)
         }
     }
     
-    return Util::Base64::b64_decode(b64);
+    return util::b64::b64_decode(b64);
 }
