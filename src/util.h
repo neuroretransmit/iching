@@ -19,8 +19,8 @@ namespace Util
     
     namespace String
     {
-        inline string& rtrim(const string& s, const char* t = " \t\n\r\f\v");
-        inline string& ltrim(const string& s, const char* t = " \t\n\r\f\v");
-        inline string& trim(const string& s, const char* t = " \t\n\r\f\v");
+        string rtrim(const string& s, const char* t = " \t\n\r\f\v");
+        string ltrim(const string& s, const char* t = " \t\n\r\f\v");
+        string trim(const string& s, const char* t = " \t\n\r\f\v");
     }
 }

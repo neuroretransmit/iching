@@ -16,21 +16,24 @@ using std::endl;
 
 int Util::Random::random_generator(int i)
 {
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> dist6(0, UINT32_MAX);
     return std::rand() % i;
 }
 
-string & Util::String::rtrim(const string& s, const char* t)
+string Util::String::rtrim(const string& s, const char* t)
 {
     
     return string(s).erase(s.find_last_not_of(t) + 1);
 }
 
-string & Util::String::ltrim(const string& s, const char* t)
+string Util::String::ltrim(const string& s, const char* t)
 {
     return string(s).erase(0, s.find_first_not_of(t));
 }
 
-string & Util::String::trim(const string& s, const char* t)
+string Util::String::trim(const string& s, const char* t)
 {
     return Util::String::ltrim(Util::String::rtrim(s, t), t);
 }
