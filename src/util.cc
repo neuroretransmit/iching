@@ -10,6 +10,7 @@
 #include <boost/archive/iterators/transform_width.hpp>
 
 using namespace boost::archive::iterators;
+
 using std::cerr;
 using std::cout;
 using std::endl;
@@ -18,28 +19,28 @@ std::random_device dev;
 std::mt19937 rng(dev());
 std::uniform_int_distribution<std::mt19937::result_type> dist(INT32_MIN, INT32_MAX);
 
-int Util::Random::random_generator(int i)
+int util::rand::random_generator(int i)
 {    
     return dist(rng) % i;
 }
 
-string Util::String::rtrim(const string& s, const char* t)
+string util::str::rtrim(const string& s, const char* t)
 {
     
     return string(s).erase(s.find_last_not_of(t) + 1);
 }
 
-string Util::String::ltrim(const string& s, const char* t)
+string util::str::ltrim(const string& s, const char* t)
 {
     return string(s).erase(0, s.find_first_not_of(t));
 }
 
-string Util::String::trim(const string& s, const char* t)
+string util::str::trim(const string& s, const char* t)
 {
-    return Util::String::ltrim(Util::String::rtrim(s, t), t);
+    return util::str::ltrim(util::str::rtrim(s, t), t);
 }
 
-string Util::Base64::b64_decode(const string& msg)
+string util::b64::b64_decode(const string& msg)
 {
     typedef transform_width<binary_from_base64<remove_whitespace<std::string::const_iterator>>, 8, 6> ItBinaryT;
     string output = "";
@@ -60,7 +61,7 @@ string Util::Base64::b64_decode(const string& msg)
     return output;
 }
 
-string Util::Base64::b64_encode(const string& msg)
+string util::b64::b64_encode(const string& msg)
 {
     std::stringstream os;
     typedef base64_from_binary<transform_width<const char*, 6, 8>> base64_text;

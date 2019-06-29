@@ -22,16 +22,16 @@ string load_test_file(const string& test_file)
 TEST(Encode, String)
 {
     Translator translator = Translator();
-    string EXPECTED = Util::String::trim(load_test_file(TEST_FILE));
-    string ACTUAL = Util::String::trim(translator.encode(TEST_STRING));
+    string EXPECTED = util::str::trim(load_test_file(TEST_FILE));
+    string ACTUAL = util::str::trim(translator.encode(TEST_STRING));
     ASSERT_EQ(ACTUAL, EXPECTED);
 }
 
 TEST(Encode, StringWithShiftCipher)
 {
     Translator translator = Translator();
-    string EXPECTED = Util::String::trim(load_test_file(TEST_FILE));
-    string ACTUAL = Util::String::trim(translator.encode(TEST_STRING, true));
+    string EXPECTED = util::str::trim(load_test_file(TEST_FILE));
+    string ACTUAL = util::str::trim(translator.encode(TEST_STRING, true));
     ASSERT_NE(ACTUAL, EXPECTED);
 }
 
@@ -39,8 +39,8 @@ TEST(Decode, String)
 {
     Translator translator = Translator();
     string EXPECTED = TEST_STRING;
-    string encoded = Util::String::trim(translator.encode(TEST_STRING));
-    string ACTUAL = Util::String::trim(translator.decode(encoded));
+    string encoded = util::str::trim(translator.encode(TEST_STRING));
+    string ACTUAL = util::str::trim(translator.decode(encoded));
     ASSERT_EQ(ACTUAL, EXPECTED);
 }
 
@@ -49,6 +49,6 @@ TEST(Decode, StringWithShiftCipher)
     Translator translator = Translator();
     string EXPECTED = TEST_STRING;
     string shifted = load_test_file(TEST_FILE_SHIFTED);
-    string ACTUAL = Util::String::trim(translator.decode(shifted));
+    string ACTUAL = util::str::trim(translator.decode(shifted));
     ASSERT_EQ(ACTUAL, EXPECTED);
 }
