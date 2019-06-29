@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <ctime>
 #include <iostream>
 #include <map>
 
@@ -13,23 +12,23 @@
 using std::cout;
 using std::endl;
 using std::ifstream;
-using std::map;
 using std::pair;
 
-static size_t MAX_WIDTH = 80;
-static map<char, Hexagram> KEYMAP;
-string BASE64_CHARACTER_ORDERING = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+Translator::Translator()
+{
+}
 
-static void build_keymap()
+void Translator::build_keymap()
 {
     int i = 0;
-    for (const char& c : BASE64_CHARACTER_ORDERING) {
-        KEYMAP.insert(pair<char, Hexagram>(c, HEXAGRAMS[i]));
+    
+    for (const char& c : this->b64_char_ordering) {
+        this->keymap.insert(pair<char, Hexagram>(c, HEXAGRAMS[i]));
         i += 1;
     }
 }
 
-string build_hexagram_output(const vector<Hexagram>& hexagrams, const string& delimiter)
+string Translator::build_hexagram_output(const vector<Hexagram>& hexagrams, const string& delimiter)
 {
     string repr = "";    
     vector<string> continuous_hexagrams(NUM_HEXAGRAM_LINES);
@@ -69,12 +68,12 @@ string build_hexagram_output(const vector<Hexagram>& hexagrams, const string& de
 string Translator::encode(const string& input, bool shuffle)
 {
     if (shuffle) {
-        std::srand(unsigned(std::time(0)));
+        std::srand(0);
         std::random_shuffle(
-            BASE64_CHARACTER_ORDERING.begin(), 
-            BASE64_CHARACTER_ORDERING.end(), 
+            b64_char_ordering.begin(), 
+            b64_char_ordering.end(), 
             Util::Random::random_generator);
-        cout << "KEY: " << BASE64_CHARACTER_ORDERING << endl;
+        cout << "KEY: " << b64_char_ordering << endl;
         build_keymap();
     } else {
         build_keymap();
@@ -84,7 +83,7 @@ string Translator::encode(const string& input, bool shuffle)
     vector<Hexagram> hexagrams;
     
     for (const char& c : b64_encoded) {
-        hexagrams.push_back(KEYMAP.at(c));
+        hexagrams.push_back(keymap.at(c));
     }
     
     return build_hexagram_output(hexagrams, "\n");
@@ -93,7 +92,7 @@ string Translator::encode(const string& input, bool shuffle)
 string Translator::decode(const string& input, const string& key)
 {
     if (key != "") {
-        BASE64_CHARACTER_ORDERING = key;
+        b64_char_ordering = key;
         build_keymap();
     } else {
         build_keymap();
@@ -104,7 +103,7 @@ string Translator::decode(const string& input, const string& key)
     
     for (const string& hexagram: hexagrams) {
         map<char, Hexagram>::iterator it;
-        for (it = KEYMAP.begin(); it != KEYMAP.end(); it++) {
+        for (it = keymap.begin(); it != keymap.end(); it++) {
             string hex_str = it->second.str();
             
             if (hex_str != "" && hex_str == hexagram) {
