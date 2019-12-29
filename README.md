@@ -71,7 +71,7 @@ KEY: EzLPYjRkayhnTCv47SgoFV5MOqb+/6emNlD231JWIXUiBKfAupwc0rQ8xHsZd9Gt
 
 ### Decoding
 ```bash
-$ ./iching -d "`cat filename.extension`" > filename.decoded-extension
+$ ./iching -d $(cat filename.extension) > filename.decoded-extension
 ```
 
 ### Decoding with Substitution Cipher
