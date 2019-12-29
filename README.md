@@ -77,5 +77,5 @@ $ ./iching -d $(cat filename.extension) > filename.decoded-extension
 ### Decoding with Substitution Cipher
 ```bash
 $ ./iching -k "D1uZzJYgiEAdehLlT285c0OVCK7mXSkf/vQy4N+IbWR96GPn3wsMaBptrUjxoHqF" \
-           -d "`cat filename.extension`" > filename.decoded-extension
+           -d $(cat filename.extension) > filename.decoded-extension
 ```
