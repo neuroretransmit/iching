@@ -3,8 +3,6 @@
 #include <string>
 #include <vector>
 
-#include "trigram.h"
-
 using std::string;
 using std::vector;
 

@@ -2,9 +2,19 @@
 
 #include <string>
 
-#include "trigram.h"
-
 using std::string;
+
+enum Trigram
+{
+    HEAVEN,
+    LAKE,
+    FIRE,
+    THUNDER,
+    WIND,
+    WATER,
+    MOUNTAIN,
+    EARTH
+};
 
 class Hexagram
 {
@@ -34,7 +44,6 @@ const int NUM_TRIGRAM_LINES = 3;
 const int NUM_HEXAGRAM_LINES = NUM_TRIGRAM_LINES * 2;
 const int HEXAGRAM_WIDTH = 10;
 
-// Hexagram lookup table by upper/lower trigram
 const Hexagram HEXAGRAMS[NUM_TRIGRAMS * NUM_TRIGRAMS] = {
     Hexagram(HEAVEN, HEAVEN, 1),
     Hexagram(EARTH, EARTH, 2),

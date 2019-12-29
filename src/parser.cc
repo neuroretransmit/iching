@@ -14,10 +14,12 @@ vector<string> Parser::lines_to_hexagrams(const vector<string>& lines)
     
     for (size_t offset = 0; offset < continuous_hexagrams[0].length(); offset += HEXAGRAM_WIDTH) {
         string hexagram = "";
+        
         for (const string& line : continuous_hexagrams) {
             for (size_t j = offset; j < offset + HEXAGRAM_WIDTH; j++) {
                 hexagram += line[j];
             }
+            
             hexagram += "\n";
         }
         

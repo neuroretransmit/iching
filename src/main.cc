@@ -22,7 +22,7 @@ int main(int argc, char** argv)
     string encode = "";
     string decode = "";
     string key = "";
-    bool shift_cipher = false;
+    bool substitution_cipher = false;
     
     try { 
         po::options_description desc("Options"); 
@@ -30,8 +30,8 @@ int main(int argc, char** argv)
             ("help,h", "Print help messages") 
             ("encode,e", po::value(&encode), "Encode message") 
             ("decode,d", po::value(&decode), "Decode message")
-            ("shift-cipher,s", po::bool_switch(&shift_cipher), "Use shift cipher")
-            ("key,k", po::value(&key), "Key for decoding shift cipher"); 
+            ("substitution-cipher,s", po::bool_switch(&substitution_cipher), "Use substitution cipher")
+            ("key,k", po::value(&key), "Key for decoding substitution cipher"); 
         po::variables_map vm; 
         
         try { 
@@ -44,7 +44,7 @@ int main(int argc, char** argv)
             } else if (vm.count("encode") || vm.count("e")) {
                 Translator translator = Translator();
                 
-                if (vm["shift-cipher"].as<bool>()) {
+                if (vm["substitution-cipher"].as<bool>()) {
                     cout << translator.encode(vm["encode"].as<string>(), true) << endl;
                 } else {
                     cout << translator.encode(vm["encode"].as<string>(), false) << endl;
