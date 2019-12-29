@@ -47,7 +47,7 @@ $ ./iching -e "secret"
 
 ### Encoding a File
 ```bash
-$ ./iching -e $(cat filename.extension)
+$ ./iching -e "$(cat filename.extension)"
 ====  ==================  ==================  ==================================
 ====  ========  ============================  ========  ========  ==============
 ==========================================================================  ====
@@ -71,11 +71,11 @@ KEY: EzLPYjRkayhnTCv47SgoFV5MOqb+/6emNlD231JWIXUiBKfAupwc0rQ8xHsZd9Gt
 
 ### Decoding
 ```bash
-$ ./iching -d $(cat filename.extension) > filename.decoded-extension
+$ ./iching -d "$(cat filename.extension)" > filename.decoded-extension
 ```
 
 ### Decoding with Substitution Cipher
 ```bash
 $ ./iching -k "D1uZzJYgiEAdehLlT285c0OVCK7mXSkf/vQy4N+IbWR96GPn3wsMaBptrUjxoHqF" \
-           -d $(cat filename.extension) > filename.decoded-extension
+           -d "$(cat filename.extension)" > filename.decoded-extension
 ```
