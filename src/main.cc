@@ -17,6 +17,27 @@ enum {
   ERROR_UNHANDLED_EXCEPTION
 };
 
+static void help(const po::options_description& desc) {
+    cout << "I Ching Hexagram Encoder/Decoder" << std::endl << desc << std::endl;
+}
+
+static void encode_msg(po::variables_map vm) {
+    Translator translator = Translator();
+    bool with_substition_cipher = vm["substitution-cipher"].as<bool>();
+    cout << translator.encode(vm["encode"].as<string>(), with_substition_cipher) << endl;
+}
+
+static void decode_msg(po::variables_map vm) {
+    Translator translator = Translator();
+    bool keyed = vm.count("key") || vm.count("k");
+    
+    if (keyed) {
+        cout << translator.decode(vm["decode"].as<string>(), vm["key"].as<string>()) << endl;
+    } else {
+        cout << translator.decode(vm["decode"].as<string>()) << endl;
+    }
+}
+
 int main(int argc, char** argv)
 {
     string encode = "";
@@ -35,28 +56,14 @@ int main(int argc, char** argv)
         po::variables_map vm; 
         
         try { 
-            po::store(po::parse_command_line(argc, argv, desc), vm); // can throw 
+            po::store(po::parse_command_line(argc, argv, desc), vm);
     
             if (vm.count("help") || vm.count("h")) { 
-                std::cout << "I Ching Hexagram Encoder/Decoder" << std::endl 
-                          << desc << std::endl; 
-                return SUCCESS; 
+                help(desc);
             } else if (vm.count("encode") || vm.count("e")) {
-                Translator translator = Translator();
-                
-                if (vm["substitution-cipher"].as<bool>()) {
-                    cout << translator.encode(vm["encode"].as<string>(), true) << endl;
-                } else {
-                    cout << translator.encode(vm["encode"].as<string>(), false) << endl;
-                }
+                encode_msg(vm);
             } else if (vm.count("decode") || vm.count("d")) {
-                Translator translator = Translator();
-                
-                if (vm.count("key") || vm.count("k")) {
-                    cout << translator.decode(vm["decode"].as<string>(), vm["key"].as<string>()) << endl;
-                } else {
-                    cout << translator.decode(vm["decode"].as<string>()) << endl;
-                }
+                decode_msg(vm);
             }
         
             po::notify(vm);

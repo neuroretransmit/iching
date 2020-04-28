@@ -42,7 +42,7 @@ public:
 const int NUM_TRIGRAMS = 8;
 const int NUM_TRIGRAM_LINES = 3;
 const int NUM_HEXAGRAM_LINES = NUM_TRIGRAM_LINES * 2;
-const int HEXAGRAM_WIDTH = 10;
+const int HEXAGRAM_WIDTH = 5;
 
 const Hexagram HEXAGRAMS[NUM_TRIGRAMS * NUM_TRIGRAMS] = {
     Hexagram(HEAVEN, HEAVEN, 1),
