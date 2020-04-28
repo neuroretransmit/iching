@@ -10,6 +10,7 @@
 #include "parser.h"
 
 using std::cout;
+using std::cerr;
 using std::endl;
 using std::ifstream;
 using std::pair;
@@ -73,7 +74,7 @@ string Translator::encode(const string& input, bool shuffle)
             b64_char_ordering.begin(), 
             b64_char_ordering.end(), 
             util::rand::random_generator);
-        cout << "KEY: " << b64_char_ordering << endl;
+        cerr << "KEY: " << b64_char_ordering << endl;
         build_keymap();
     } else {
         build_keymap();
