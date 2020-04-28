@@ -6,8 +6,8 @@
 using std::string;
 using std::vector;
 
-const char* SOLID = "==========";
-const char* BROKEN = "====  ====";
+const char* SOLID = "=====";
+const char* BROKEN = "== ==";
 
 const char* TRIGRAMS[NUM_TRIGRAMS][NUM_TRIGRAM_LINES] = 
 {

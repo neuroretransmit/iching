@@ -8,8 +8,8 @@
 const string TEST_STRING = "yeet";
 const string TEST_FILES_DIR = "../../tests/files/";
 const string TEST_FILE = TEST_FILES_DIR + "yeet.iching";
-const string TEST_FILE_SHIFTED = TEST_FILES_DIR + "yeet-shifted.iching";
-const string TEST_KEY = "TX/FB8Pu40ZztIVmpNeh9xocflkLnE+2Ysd7vyOACGWHwbqjgDSKr5a3J1RUQ6iM";
+const string TEST_FILE_SUBSTITUTED = TEST_FILES_DIR + "yeet-substituted.iching";
+const string TEST_KEY = "Cgh4cob8Z+jlIfX/tRu7kWJwGHBzLQOxnqYKaPAET029V36pMmy5v1dSFrDseUNi";
 
 string load_test_file(const string& test_file)
 {
@@ -27,7 +27,7 @@ TEST(Encode, String)
     ASSERT_EQ(ACTUAL, EXPECTED);
 }
 
-TEST(Encode, StringWithShiftCipher)
+TEST(Encode, StringWithSubstitutionCipher)
 {
     Translator translator = Translator();
     string EXPECTED = util::str::trim(load_test_file(TEST_FILE));
@@ -44,11 +44,11 @@ TEST(Decode, String)
     ASSERT_EQ(ACTUAL, EXPECTED);
 }
 
-TEST(Decode, StringWithShiftCipher)
+TEST(Decode, StringWithSubstitutionCipher)
 {
     Translator translator = Translator();
     string EXPECTED = TEST_STRING;
-    string shifted = load_test_file(TEST_FILE_SHIFTED);
-    string ACTUAL = util::str::trim(translator.decode(shifted));
+    string substituted = load_test_file(TEST_FILE_SUBSTITUTED);
+    string ACTUAL = util::str::trim(translator.decode(substituted));
     ASSERT_EQ(ACTUAL, EXPECTED);
 }
